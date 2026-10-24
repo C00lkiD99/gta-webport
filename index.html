@@ -1,1 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Custom Engine Player Workspace</title>
+    <style>
+        body { margin: 0; background: #000; overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        canvas { width: 100%; height: 100%; display: block; }
+        #status { position: absolute; color: #fff; font-family: monospace; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <div id="status">Initializing Project Runtimes...</div>
+    <canvas id="canvas" oncontextmenu="event.preventDefault()"></canvas>
+
+    <script>
+        const statusElement = document.getElementById('status');
+        const canvas = document.getElementById('canvas');
+
+        const gl = canvas.getContext('webgl2');
+        if (!gl) {
+            statusElement.innerText = 'WebGL2 is unsupported on this system hardware.';
+        } else {
+            statusElement.innerText = 'Engine runtime loaded. Awaiting WASM module compilation...';
+        }
+
+        var Module = {
+            preRun: [],
+            postRun: [],
+            print: function(text) { console.log(text); },
+            canvas: canvas,
+            setStatus: function(text) {
+                statusElement.innerText = text;
+            }
+        };
+    </script>
+</body>
+</html>
 
